@@ -2,7 +2,7 @@
 
 Hi guys. This project in fact was a task of interviewer. 
 Employer told me to do CRUD application (Create, Read, Update and Delete).
-The application also should has a filter, a grouping and an imageUploading functionality.
+The application also should has filter, grouping, validation and an imageUploading functionality.
 
 ### Installing
 

@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div ng-controller="mvcCRUDCtrl" nv-file-drop="" uploader="uploader" filters="queueLimit,resetAfterUpload">
+    <div class="divList">
+        <div class="col-md-3">
+            <br />
+            <br />
+            <label>Search All: <br /><input ng-model="search.$"></label>
+            <br />
+            <label>Search Name: <input ng-model="search.Name"></label>
+            <br />
+            <label>Search Surname: <input ng-model="search.Surname"></label>
+            <br />
+            <label>
+                Search Position:
+                <select ng-model="search.Position" ng-init="search.Position=Positions[0]" ng-options="option as option for option in Positions"></select>
+            </label>
+            <label>
+                Create Deposit:
+                <input type="checkbox" ng-model="search.CreateDep" />
+            </label>
+        </div>
+        <div class="col-md-9">
+            <table class="table table-hover">
+                <tbody ng-repeat="(key, value) in workers | groupBy: 'Subdivision'">
+                    <tr><td>Subdivision: {{ key }}</td></tr>
+                    <tr>
+                        <td><b>ID</b></td>
+                        <td><b>Name</b></td>
+                        <td><b>Surname</b></td>
+                        <td><b>Sex</b></td>
+                        <td><b>Photo</b></td>
+                        <td><b>Position</b></td>
+                        <td><b>Subdivision</b></td>
+                        <td><b>Actions</b></td>
+                    </tr>
+                    <tr ng-repeat="worker in value | filter: search: strict ">
+                        <td>
+                            {{worker.Id}}
+                        </td>
+                        <td>
+                            {{worker.Name}}
+                        </td>
+                        <td>
+                            {{worker.Surname}}
+                        </td>
+                        <td>
+                            {{worker.Sex}}
+                        </td>
+                        <td>
+                            <div ng-show="worker.Photo != null&&worker.Photo !=''">
+                                <img ng-src="~/Images/{{worker.Photo}}" width="50" height="50" />
+                            </div>
+                            <div ng-show="worker.Photo == null||worker.Photo ==''">
+                                <b><i>NoPhoto!</i></b>
+                            </div>
+                        </td>
+                        <td>
+                            {{worker.Position}}
+                        </td>
+                        <td>
+                            {{worker.Subdivision}}
+                        </td>
+                        <td>
+                            <a ng-href="/Home/ViewWorker/{{worker.Id}}" class="btn btn-success">View</a>
+                            <span ng-click="editWorker(worker)" class="btn btn-primary">Edit</span>
+                            <span ng-click="deleteWorker(worker)" class="btn btn-danger">Delete</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <span ng-click="AddWorkerDiv()" class="btn btn-default">
+        Add Worker
+    </span>
+    <div ng-show="divWorker" ng-form="frm">
+        <p class="divHead"></p>
+        <table class="table">
+            <tr>
+                <td><b><i>{{Action}} Worker</i></b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>Id</b></td>
+                <td>
+                    <input type="text" disabled="disabled" ng-model="workerId" />
+                </td>
+                <td><b>Name</b></td>
+                <td>
+                    <input type="text" ng-model="workerName" name="nameInput" ng-maxlength="64" required />
+                    <span class="label label-danger" ng-show="frm.nameInput.$error.maxlength">Too long! (max64)</span>
+                    <span class="label label-danger" ng-show="frm.nameInput.$error.required">Required!</span>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Surname</b></td>
+                <td>
+                    <input type="text" ng-model="workerSurname" name="surnameInput" ng-maxlength="64" required />
+                    <span class="label label-danger" ng-show="frm.surnameInput.$error.maxlength">Too long! (max64)</span>
+                    <span class="label label-danger" ng-show="frm.surnameInput.$error.required">Required!</span>
+                </td>
+                <td><b>MiddleName</b></td>
+                <td>
+                    <input type="text" ng-model="workerMiddleName" name="middleNameInput" ng-maxlength="64" required />
+                    <span class="label label-danger" ng-show="frm.middleNameInput.$error.maxlength">Too long! (max64)</span>
+                    <span class="label label-danger" ng-show="frm.middleNameInput.$error.required">Required!</span>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Sex</b></td>
+                <td>
+                    <label class="active">
+                        <input type="radio" name="sexInput" ng-model="workerSex" value="Male" required>
+                        Male
+                    </label><br />
+                    <label>
+                        <input type="radio" name="sexInput" ng-model="workerSex" value="Female" required>
+                        Female
+                    </label>
+                    <span class="label label-danger" ng-show="frm.sexInput.$error.required">Required!</span>
+                </td>
+                <td>
+                    <img ng-show="workerPhoto != null && workerPhoto !=''" ng-src="~/Images/{{workerPhoto}}" width="50" height="50" />@*Foto est!*@
+                    <input type="file" nv-file-select="" uploader="uploader" />
+                    @*<div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>*@
+                    <button ng-show="workerPhoto != null && workerPhoto !=''" type="button" class="btn btn-danger btn-xs" ng-click="DeletePhoto(worker.Id)">
+                        <span class="glyphicon glyphicon-trash"></span> Remove
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Position</b></td>
+                <td>
+                    <select name="positionInput" ng-model="workerPosition" required>
+                        <option ng-repeat="option in Positions2" value="{{option}}">{{option}}</option>
+                    </select>
+                    <span class="label label-danger" ng-show="frm.positionInput.$error.required">Required!</span>
+                </td>
+                <td><b>Subdivision</b></td>
+                <td>
+                    <select name="subdivisionInput" ng-model="workerSubdivision" required>
+                        <option ng-repeat="option in Subdivisions" value="{{option}}">{{option}}</option>
+                    </select>
+                    <span class="label label-danger" ng-show="frm.subdivisionInput.$error.required">Required!</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><b>CreateDep</b></td>
+                <td>
+                    <input type="checkbox" ng-model="workerCreateDep" />
+                </td>
+                <td><b>CloseDep</b></td>
+                <td>
+                    <input type="checkbox" ng-model="workerCloseDep" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>OkDep</b></td>
+                <td>
+                    <input type="checkbox" ng-model="workerOkDep" />
+                </td>
+                <td><b>OkOpenDep</b></td>
+                <td>
+                    <input type="checkbox" ng-model="workerOkOpenDep" />
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateWorker(); " ng-disabled="frm.$invalid" />
+                    <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,19 +1,16 @@
 # Asp.Net MVC + Angular CRUD Application
 
-Hi guys. This project in fact was a task of interview. 
-Employer told me to do CRUD application (Create, Read, Update and Delete) 
-The application also should has a filter, a grouping and an imageUploader.
-This project is just done so code is weak but it works
-Made with love and with principe "if it works don't touch it"
-hahahahhaha
+Hi guys. This project in fact was a task of interviewer. 
+Employer told me to do CRUD application (Create, Read, Update and Delete).
+The application also should has a filter, a grouping and an imageUploading functionality.
+The code is not perfect but works. 
 
 ### Installing
 
-Everithing is here, if you found a bag or something just like this, 
-write we my friend, we will try to solve the problem, at least we will try
-hahahhahahahha
-the dota stored in .mdf database file, so you have to create a database 
-which name is database.mdf. Here's a t-sql code
+If you found a bag or something just like this, 
+write in issues, we will try to solve the problem.
+The data is stored in .mdf database file, so you have to create database1.mdf file. 
+Here's a t-sql code for creating table
 
 ```
 CREATE TABLE [dbo].[Workers] (

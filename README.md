@@ -3,12 +3,9 @@
 Hi guys. This project in fact was a task of interviewer. 
 Employer told me to do CRUD application (Create, Read, Update and Delete).
 The application also should has a filter, a grouping and an imageUploading functionality.
-The code is not perfect but works. 
 
 ### Installing
 
-If you found a bag or something just like this, 
-write in issues, we will try to solve the problem.
 The data is stored in .mdf database file, so you have to create database1.mdf file. 
 Here's a t-sql code for creating table
 
@@ -30,6 +27,12 @@ CREATE TABLE [dbo].[Workers] (
 );
 ```
 
-## License
+### Thanks
+
+This is my first project in Github and If you found this project useful please star it.  
+If you found a bag, suggestions or something just like this, 
+write it on the issues, we will try to solve the problem.
+
+### License
 
 MIT
